@@ -14,7 +14,7 @@ then activate a suitable virtual environment and install the requirements file, 
 ```
 pip install requirements.txt
 ```
-IMPORTANT NOTE: You also need to install one additional package not included in the requirements,
+IMPORTANT!: You also need to install one additional package not included in the requirements,
 xGPR, which is not distributed on PyPi. For instructions on installation for xGPR, see the docs at
 https://xgpr.readthedocs.io/en/latest/index.html .
 
@@ -31,6 +31,11 @@ do this. You can for example set up two virtual environments, or alternative ins
 run the corresponding experiments, then install the other variant and run the remaining experiments.
 This is definitely cumbersome and we're not thrilled about it either, but to reproduce this experiments in
 the way they were run, this is what you'll need to do.
+
+Note also that the requirements file has ```cupy-cuda12x```, which may be inappropriate if you
+have cuda 11, and that a specific version of PyTorch is listed which may be inappropriate for
+your device. You may need to change these lines in the requirements file if this is indeed the
+case.
 
 ### Usage
 
@@ -54,5 +59,3 @@ options:
 ```
 
 ```--encodeall`` needs to be run first, after that the remaining experiments can be run in any order.
-Finally, there's one additional notebook-based experiment that can be reproduced by running the
-corresponding notebook under the notebooks folder; this one is primarily for visualization purposes.
