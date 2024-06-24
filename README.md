@@ -23,7 +23,8 @@ package. Initially all experiments were run using xGPR v0.2.0.5. Later, however,
 experiments were re-run using xGPR v0.4.0.1. While the performance difference in terms of held-out
 test set score is negligible between these two variants, xGPR v0.4.0.1 is *much* faster and therefore
 it was preferable to use it for any experiment where the speed of xGPR is being compared with the
-speed of some other approach.
+speed of some other approach. xGPR also has an improved API and is easier to install, so it is
+preferred in general.
 
 What this means is that you want to reproduce all experiments, you will need to run the first three
 in the pipeline using xGPR v0.4.0.1, and the last two using v0.2.0.5. There are several ways you can
@@ -36,6 +37,9 @@ Note also that the requirements file has ```cupy-cuda12x```, which may be inappr
 have cuda 11, and that a specific version of PyTorch is listed which may be inappropriate for
 your device. You may need to change these lines in the requirements file if this is indeed the
 case.
+
+Finally, xGPR may have some incompatibility with the latest version of numpy, which included some
+breaking changes. We'll have a fix for this in the next version of xGPR.
 
 ### Usage
 
