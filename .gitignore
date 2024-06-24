@@ -5,7 +5,6 @@ __pycache__/
 
 # Data-related files
 *.npy
-*.csv
 *.pk
 
 # C extensions
