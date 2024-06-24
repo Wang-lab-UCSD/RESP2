@@ -102,7 +102,7 @@ def analyze_annealing_results(start_dir):
     narrow things down."""
 
     os.chdir(os.path.join(start_dir, "encoded_data"))
-    raw_seqs = set(pd.read_csv("reorg_data.rtxt").Sequence.tolist())
+    raw_seqs = set(pd.read_csv("reorg_data.rtxt.gz").Sequence.tolist())
 
     os.chdir(os.path.join(start_dir, "results_and_resources", "simulated_annealing"))
 
@@ -118,8 +118,8 @@ def analyze_annealing_results(start_dir):
     var = (var - var.min(axis=0)[None,:]) / (var.max(axis=0) - var.min(axis=0))[None,:]
     var = np.max(var, axis=1)
 
-    humanness_score_tool = SequenceScoringTool(adjusted_scores = False)
-    humanness_scores = humanness_score_tool.batch_score_seqs(seqs)
+    humanness_score_tool = SequenceScoringTool(normalization="none")
+    humanness_scores = humanness_score_tool.score_seqs(seqs)
 
     #Immediately remove any sequences with low (absolute or relative )humanness.
     #(See the AntPack paper for details.)

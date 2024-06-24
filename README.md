@@ -1,2 +1,58 @@
 # covid_experiments
-Experiments for the first COVID project
+
+This repo contains code needed to reproduce key experiments for Parkinson / Hard, Ko and Wang 2024 for the ML-assisted discovery of broad-spectrum anti-COVID antibodies.
+
+### Installation
+
+To run this package, first clone it:
+```
+git clone https://github.com/Wang-lab-UCSD/covid_experiments/
+cd covid_experiments
+```
+
+then activate a suitable virtual environment and install the requirements file, e.g.:
+```
+pip install requirements.txt
+```
+IMPORTANT NOTE: You also need to install one additional package not included in the requirements,
+xGPR, which is not distributed on PyPi. For instructions on installation for xGPR, see the docs at
+https://xgpr.readthedocs.io/en/latest/index.html .
+
+Unfortunately some of the experiments in this repo involve two different versions of the xGPR
+package. Initially all experiments were run using xGPR v0.2.0.5. Later, however, the traintest split
+experiments were re-run using xGPR v0.4.0.1. While the performance difference in terms of held-out
+test set score is negligible between these two variants, xGPR v0.4.0.1 is *much* faster and therefore
+it was preferable to use it for any experiment where the speed of xGPR is being compared with the
+speed of some other approach.
+
+What this means is that you want to reproduce all experiments, you will need to run the first three
+in the pipeline using xGPR v0.4.0.1, and the last two using v0.2.0.5. There are several ways you can
+do this. You can for example set up two virtual environments, or alternative install one variant and
+run the corresponding experiments, then install the other variant and run the remaining experiments.
+This is definitely cumbersome and we're not thrilled about it either, but to reproduce this experiments in
+the way they were run, this is what you'll need to do.
+
+### Usage
+
+To run experiments in the pipeline, from the command line, run:
+```
+python run_experiments.py
+```
+
+and you'll see a list of options:
+```
+usage: run_experiments.py [-h] [--encodeall] [--traintest] [--evolution] [--evanal]              
+                                                                                                                
+Use this command line app to run key experiments.
+
+options:
+  -h, --help    show this help message and exit
+  --encodeall   Encodes the amino acid sequence data.
+  --traintest   Run train-test evaluations on the available models.
+  --evolution   Run the simulated annealing process.
+  --evanal      Analyze the simulated annealing results.
+```
+
+```--encodeall`` needs to be run first, after that the remaining experiments can be run in any order.
+Finally, there's one additional notebook-based experiment that can be reproduced by running the
+corresponding notebook under the notebooks folder; this one is primarily for visualization purposes.

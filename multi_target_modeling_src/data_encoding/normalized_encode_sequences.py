@@ -288,15 +288,16 @@ def encode_batches(tt_split, label, stored_encodings, variant_dict,
         a_onehot_full = encoders["onehot"].encode(antigen_full)
         a_esm = encoders["esm"].encode(antigen_full)
 
+
         x_lengths = np.array([x_onehot.shape[1] for _ in range(x_onehot.shape[0])],
                              dtype=np.int32)
         a_lengths = np.array([a_onehot_full.shape[1] for _ in range(a_onehot_full.shape[0])],
                              dtype=np.int32)
 
-        x_conv = onehot_converter.predict(x_onehot,
-                        sequence_lengths=x_lengths, chunk_size=2000)
-        a_conv = onehot_converter.predict(a_onehot_full,
-                        sequence_lengths=a_lengths, chunk_size=2000)
+        x_conv = onehot_converter.predict(x_onehot, sequence_lengths=x_lengths,
+                                          chunk_size=2000)
+        a_conv = onehot_converter.predict(a_onehot_full, sequence_lengths=a_lengths,
+                                          chunk_size=2000)
 
         np.save(f"onehot_{counter}_concat.npy", np.hstack([flatten(x_onehot),
                                   flatten(a_onehot_partial)]).astype(np.float32) )
@@ -316,10 +317,10 @@ def encode_batches(tt_split, label, stored_encodings, variant_dict,
                              dtype=np.int32)
         a_lengths = np.array([a_pfa.shape[1] for _ in range(a_pfa.shape[0])],
                              dtype=np.int32)
-        x_conv = onehot_converter.predict(x_pfa,
-                            sequence_lengths=x_lengths, chunk_size=2000)
-        a_conv = onehot_converter.predict(a_pfa,
-                            sequence_lengths=a_lengths, chunk_size=2000)
+        x_conv = onehot_converter.predict(x_pfa, sequence_lengths=x_lengths,
+                                          chunk_size=2000)
+        a_conv = onehot_converter.predict(a_pfa, sequence_lengths=a_lengths,
+                                          chunk_size=2000)
 
         np.save(f"pfaconv_{counter}_concat.npy", np.concatenate([x_conv, a_conv],
                                                         axis=1).astype(np.float32) )
@@ -334,8 +335,8 @@ def encode_batches(tt_split, label, stored_encodings, variant_dict,
                          seq_encoding_constants.RIGHT_TRIM_POINT,:]
         x_lengths = np.array([x_autoencoder.shape[1] for _ in range(x_autoencoder.shape[0])],
                              dtype=np.int32)
-        x_conv = autoenc_converter.predict(x_autoencoder,
-                            sequence_lengths=x_lengths, chunk_size=2000)
+        x_conv = autoenc_converter.predict(x_autoencoder, sequence_lengths=x_lengths,
+                                           chunk_size=2000)
 
         np.save(f"autoencoderconv_{counter}_concat.npy", np.hstack([x_conv,
                                   flatten(a_onehot_partial)]).astype(np.float32) )
@@ -349,7 +350,7 @@ def encode_batches(tt_split, label, stored_encodings, variant_dict,
         #disk space and time. If you are interested in running these experiments,
         # uncomment this code.
         #x_ablang = encoders["ablang"].encode(xseqs)
-        #x_conv = ablang_converter.conv1d_x_feat_extract(x_ablang, chunk_size=2000)
+        #x_conv = ablang_converter.predict(x_ablang, chunk_size=2000)
 
         #x_ablang_flat = flatten(x_ablang)
         #a_esm_flat = a_esm.mean(axis=1)

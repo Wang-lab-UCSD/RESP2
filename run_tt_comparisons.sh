@@ -5,7 +5,7 @@
 #SBATCH --output ev_traintest
 #SBATCH -w gpu-1
 #SBATCH --gres=gpu:1
-#SBATCH --mem=30G
+#SBATCH --mem=20G
 
 module load cuda
 
