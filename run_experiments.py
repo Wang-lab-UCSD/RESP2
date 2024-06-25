@@ -70,31 +70,31 @@ if __name__ == "__main__":
             if "conv" in prefix:
                 kernel_list = ["MiniARD"]
             else:
-                kernel_list = ["MiniARD", "Linear"]
+                kernel_list = ["Linear"]
 
             for kernel in kernel_list:
                 fname = f"{prefix}_{suffix}_{kernel}_xgp"
                 traintest_xgp(home_dir, "high", kernel, prefix = prefix,
                             suffix = suffix, output_fname = fname)
 
-        #for (prefix, suffix) in [("autoencoder", "concat"),
-        #                         ("onehot", "concat"),
-        #                         ("onehotESM", "concat"),
-        #                         ("pfa", "concat"),
-        #                         ]:
-        #    traintest_varbayes(home_dir, "high", prefix, "concat")
+        for (prefix, suffix) in [("autoencoder", "concat"),
+                                 ("onehot", "concat"),
+                                 ("onehotESM", "concat"),
+                                 ("pfa", "concat"),
+                                 ]:
+            traintest_varbayes(home_dir, "high", prefix, "concat")
 
 
-        #for (prefix, suffix) in [("autoencoder", "x"), ("onehot", "x"), ("pfa", "x")]:
-        #    config_fpath = os.path.join(home_dir, "multi_target_modeling_src",
-        #                                "yaml_config_files", "cnn_config.yaml")
-        #    traintest_cnn(home_dir, config_fpath, "high",
-        #                  "cnn", prefix=prefix, suffix=suffix)
-        #    config_fpath = os.path.join(home_dir, "multi_target_modeling_src",
-        #                                "yaml_config_files",
-        #                                "cnn_llgp_config.yaml")
-        #    traintest_cnn(home_dir, config_fpath, "high",
-        #                  "cnn", prefix=prefix, suffix=suffix)
+        for (prefix, suffix) in [("autoencoder", "x"), ("onehot", "x"), ("pfa", "x")]:
+            config_fpath = os.path.join(home_dir, "multi_target_modeling_src",
+                                        "yaml_config_files", "cnn_config.yaml")
+            traintest_cnn(home_dir, config_fpath, "high",
+                          "cnn", prefix=prefix, suffix=suffix)
+            config_fpath = os.path.join(home_dir, "multi_target_modeling_src",
+                                        "yaml_config_files",
+                                        "cnn_llgp_config.yaml")
+            traintest_cnn(home_dir, config_fpath, "high",
+                          "cnn", prefix=prefix, suffix=suffix)
 
 
 

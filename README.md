@@ -26,7 +26,7 @@ it was preferable to use it for any experiment where the speed of xGPR is being 
 speed of some other approach. xGPR also has an improved API and is easier to install, so it is
 preferred in general.
 
-What this means is that you want to reproduce all experiments, you will need to run the first three
+What this means is that you want to reproduce all experiments, you will need to run the first two
 in the pipeline using xGPR v0.4.0.1, and the last two using v0.2.0.5. There are several ways you can
 do this. You can for example set up two virtual environments, or alternative install one variant and
 run the corresponding experiments, then install the other variant and run the remaining experiments.
