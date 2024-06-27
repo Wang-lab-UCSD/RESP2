@@ -8,6 +8,7 @@ from multi_target_modeling_src.data_encoding.normalized_encode_sequences import 
 from multi_target_modeling_src.model_code.model_comparison_experiments import traintest_xgp, traintest_cnn, traintest_varbayes
 from multi_target_modeling_src.simulated_annealing.run_markov_chains import run_annealing_chains
 from multi_target_modeling_src.simulated_annealing.run_markov_chains import analyze_annealing_results
+from multi_target_modeling_src.simulated_annealing.run_markov_chains import id_most_important_positions
 
 
 
@@ -19,6 +20,10 @@ def get_argparser():
             "Encodes the amino acid sequence data.")
     arg_parser.add_argument("--traintest", action="store_true", help=
             "Run train-test evaluations on the available models.")
+    arg_parser.add_argument("--buildfinal", action="store_true", help=
+            "Build the final xGPR model.")
+    arg_parser.add_argument("--id_key_positions", action="store_true", help=
+            "Find the most important positions to search in silico.") 
     arg_parser.add_argument("--evolution", action="store_true", help=
             "Run the simulated annealing process.")
     arg_parser.add_argument("--evanal", action="store_true", help=
@@ -70,7 +75,7 @@ if __name__ == "__main__":
             if "conv" in prefix:
                 kernel_list = ["MiniARD"]
             else:
-                kernel_list = ["MiniARD"]
+                kernel_list = ["Linear", "MiniARD"]
 
             for kernel in kernel_list:
                 fname = f"{prefix}_{suffix}_{kernel}_xgp"
@@ -97,6 +102,23 @@ if __name__ == "__main__":
             traintest_cnn(home_dir, config_fpath, "high",
                           "cnn", prefix=prefix, suffix=suffix)
 
+    if args.buildfinal:
+        check_version("0.2.0.5")
+        st = time.time()
+        traintest_xgp(home_dir, "high", "MiniARD", prefix = "onehotESM",
+                            suffix = "concat", output_fname = "FINAL_high_model",
+                            final_model = True)
+        print(f"Time to fit high: {time.time() - st}")
+        st = time.time()
+        traintest_xgp(home_dir, "super", "MiniARD", prefix = "onehotESM",
+                            suffix = "concat", output_fname = "FINAL_super_model",
+                            final_model = True)
+        print(f"Time to fit super: {time.time() - st}")
+
+
+    if args.id_key_positions:
+        check_version("0.2.0.5")
+        id_most_important_positions(home_dir)
 
 
     if args.evolution:

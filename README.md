@@ -27,7 +27,7 @@ speed of some other approach. xGPR also has an improved API and is easier to ins
 preferred in general.
 
 What this means is that you want to reproduce all experiments, you will need to run the first two
-in the pipeline using xGPR v0.4.0.1, and the last two using v0.2.0.5. There are several ways you can
+in the pipeline using xGPR v0.4.0.1, and all others using v0.2.0.5. There are several ways you can
 do this. You can for example set up two virtual environments, or alternative install one variant and
 run the corresponding experiments, then install the other variant and run the remaining experiments.
 This is definitely cumbersome and we're not thrilled about it either, but to reproduce this experiments in
@@ -54,12 +54,14 @@ usage: run_experiments.py [-h] [--encodeall] [--traintest] [--evolution] [--evan
                                                                                                                 
 Use this command line app to run key experiments.
 
-options:
-  -h, --help    show this help message and exit
-  --encodeall   Encodes the amino acid sequence data.
-  --traintest   Run train-test evaluations on the available models.
-  --evolution   Run the simulated annealing process.
-  --evanal      Analyze the simulated annealing results.
+options:                                                                                                                              
+  -h, --help          show this help message and exit                                                                                 
+  --encodeall         Encodes the amino acid sequence data.                                                                           
+  --traintest         Run train-test evaluations on the available models.                                                             
+  --buildfinal        Build the final xGPR model.
+  --id_key_positions  Find the most important positions to search in silico.
+  --evolution         Run the simulated annealing process.
+  --evanal            Analyze the simulated annealing results.
 ```
 
 ```--encodeall`` needs to be run first, after that the remaining experiments can be run in any order.
