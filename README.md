@@ -4,6 +4,8 @@ This repo contains code needed to reproduce key experiments for Parkinson / Hard
 
 ### Installation
 
+These experiments were originally run on a Nvidia A6000 GPU with cuda12.3.
+
 To run this package, first clone it:
 ```
 git clone https://github.com/Wang-lab-UCSD/covid_experiments/
@@ -36,13 +38,8 @@ the way they were run, this is what you'll need to do.
 Note also that the requirements file has ```cupy-cuda12x```, which may be inappropriate if you
 have cuda 11, and that a specific version of PyTorch is listed which may be inappropriate for
 your device. You may need to change these lines in the requirements file if this is indeed the
-case.
-
-Note that the weights for the final model will be downloaded if you run any of the
+case. Note that the weights for the final model will be downloaded if you run any of the
 last three experiments and the weights have not been downloaded already.
-
-Finally, xGPR may have some incompatibility with the latest version of numpy, which included some
-breaking changes. We'll have a fix for this in the next version of xGPR.
 
 ### Usage
 
