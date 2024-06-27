@@ -80,7 +80,8 @@ if __name__ == "__main__":
                 traintest_xgp(home_dir, "high", kernel, prefix = prefix,
                             suffix = suffix, output_fname = fname)
 
-        for (prefix, suffix) in [("autoencoder", "concat"),
+        for (prefix, suffix) in [
+                                 ("autoencoder", "concat"),
                                  ("onehot", "concat"),
                                  ("onehotESM", "concat"),
                                  ("pfa", "concat"),
