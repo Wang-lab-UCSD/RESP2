@@ -64,11 +64,15 @@ class FC_Layer(torch.nn.Module):
         This is used only for predictions; obviously if we used this for training we would
         be reverting to a simple FCNN.
         """
+        rgen = None
         if random_seed is not None:
-            torch.manual_seed(random_seed)
+            rgen = torch.manual_seed(random_seed)
+        import pdb
+        pdb.set_trace()
+
         if sample:
-            weight_epsilons = Variable(self.weight_means.data.new(self.weight_means.size()).normal_())
-            bias_epsilons = Variable(self.bias_means.data.new(self.bias_means.size()).normal_())
+            weight_epsilons = Variable(self.weight_means.data.new(self.weight_means.size()).normal_(generator=rgen))
+            bias_epsilons = Variable(self.bias_means.data.new(self.bias_means.size()).normal_(generator=rgen))
             weight_stds = self.softplus(self.weight_rhos)
             bias_stds = self.softplus(self.bias_rhos)
 
@@ -85,6 +89,8 @@ class FC_Layer(torch.nn.Module):
                                     weight_sample).sum()
             kl_loss = kl_loss + self.log_gaussian(self.bias_means, bias_stds,
                                     bias_sample).sum()
+            import pdb
+            pdb.set_trace()
         else:
             kl_loss = 0
             output = torch.mm(x, self.weight_means) + self.bias_means
@@ -117,6 +123,7 @@ class bayes_regression_nn(torch.nn.Module):
         self.n2 = FC_Layer(n1_size, n2_size, sigma1_prior)
         self.bnorm_3 = torch.nn.BatchNorm1d(n2_size, affine = False)
         self.n3 = FC_Layer(n2_size,1, sigma1_prior)
+        
         self.register_buffer("train_mean", torch.zeros((1,xdim))  )
         self.register_buffer("train_std", torch.zeros((1,xdim))  )
 
@@ -173,7 +180,6 @@ class bayes_regression_nn(torch.nn.Module):
             output (tensor): The predicted y-values.
         """
         x, kl_loss_x = self.n1_x(x, sample, random_seed)
-
         x = F.elu(self.bnorm_2(x))
 
         x, kl_loss2 = self.n2(x, sample, random_seed)

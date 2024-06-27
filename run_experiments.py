@@ -70,14 +70,15 @@ if __name__ == "__main__":
             if "conv" in prefix:
                 kernel_list = ["MiniARD"]
             else:
-                kernel_list = ["Linear"]
+                kernel_list = ["MiniARD"]
 
             for kernel in kernel_list:
                 fname = f"{prefix}_{suffix}_{kernel}_xgp"
                 traintest_xgp(home_dir, "high", kernel, prefix = prefix,
                             suffix = suffix, output_fname = fname)
 
-        for (prefix, suffix) in [("autoencoder", "concat"),
+        for (prefix, suffix) in [
+                                 ("autoencoder", "concat"),
                                  ("onehot", "concat"),
                                  ("onehotESM", "concat"),
                                  ("pfa", "concat"),

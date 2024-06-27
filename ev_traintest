@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/new-stg/home/jonathan2/COVID/covid_experiments/run_experiments.py", line 58, in <module>
+    check_version("0.4.0.1")
+  File "/new-stg/home/jonathan2/COVID/covid_experiments/run_experiments.py", line 35, in check_version
+    raise RuntimeError("The xGPR version installed is not appropriate. "
+RuntimeError: The xGPR version installed is not appropriate. Unfortunately some experiments in this repo were run using xGPR v0.4.0.1 and some with 0.2.0.5. For experiments up to 'evolution' and 'evanal', please use v0.4.0.1. For 'evolution' and 'evanal', please use v0.2.0.5.
