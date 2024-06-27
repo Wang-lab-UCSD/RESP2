@@ -168,3 +168,32 @@ def analyze_annealing_results(start_dir):
     output_df.to_csv("Selected_sequences.csv", index=False)
 
     print(f"Harvested {output_df.shape[0]} sequences.")
+
+
+
+def id_most_important_positions(start_dir, num_to_retrieve = 6):
+    """In this experiment, we select a subset of mutation locations by
+    finding the ones the model indicates may be most useful in isolation.
+    This yields a much smaller search space that is much easier to cover."""
+    flat_prob_distro = get_flat_prob_distro()
+
+    scoring_tool = MarkovChainDE(start_dir, flat_prob_distro)
+
+    position_scores = []
+    original_scores = scoring_tool.get_concat_scores(list(seq_encoding_constants.wt))
+
+    for p in range(len(seq_encoding_constants.wt)):
+        scores = []
+        clone = list(seq_encoding_constants.wt)
+
+        for aa in seq_encoding_constants.aas[:-1]:
+            if aa == "C":
+                continue
+            clone[p] = aa
+            score_shift = scoring_tool.get_concat_scores(clone) - original_scores
+            scores.append(score_shift.min())
+
+        position_scores.append(max(scores))
+
+    top_positions = list(np.argsort(position_scores)[-num_to_retrieve:])
+    print(np.sort(top_positions))
