@@ -38,6 +38,9 @@ have cuda 11, and that a specific version of PyTorch is listed which may be inap
 your device. You may need to change these lines in the requirements file if this is indeed the
 case.
 
+Note that the weights for the final model will be downloaded if you run any of the
+last three experiments and the weights have not been downloaded already.
+
 Finally, xGPR may have some incompatibility with the latest version of numpy, which included some
 breaking changes. We'll have a fix for this in the next version of xGPR.
 
@@ -54,11 +57,10 @@ usage: run_experiments.py [-h] [--encodeall] [--traintest] [--evolution] [--evan
                                                                                                                 
 Use this command line app to run key experiments.
 
-options:                                                                                                                              
-  -h, --help          show this help message and exit                                                                                 
-  --encodeall         Encodes the amino acid sequence data.                                                                           
-  --traintest         Run train-test evaluations on the available models.                                                             
-  --buildfinal        Build the final xGPR model.
+options:
+  -h, --help          show this help message and exit
+  --encodeall         Encodes the amino acid sequence data.
+  --traintest         Run train-test evaluations on the available models.
   --id_key_positions  Find the most important positions to search in silico.
   --evolution         Run the simulated annealing process.
   --evanal            Analyze the simulated annealing results.

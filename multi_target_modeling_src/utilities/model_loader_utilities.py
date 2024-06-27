@@ -2,7 +2,9 @@
 import os
 import pickle
 import torch
+import wget
 from xGPR import FastConv1d
+from .load_savez_weights import build_model_from_savez
 from ..model_code.task_adapted_autoencoder import TaskAdaptedAutoencoder as TAA
 
 
@@ -22,13 +24,26 @@ def load_final_models(start_dir):
     os.chdir(os.path.join(start_dir, "results_and_resources", "trained_models"))
     if "FINAL_high_model.pk" not in os.listdir() or "FINAL_super_model.pk" \
             not in os.listdir():
-        raise ValueError("Final models have not yet been constructed or "
-                "have been removed.")
+        if "FINAL_high_model.npz" not in os.listdir() or "FINAL_super_model.npz" \
+                not in os.listdir():
+            raw_high = wget.download("https://www.dropbox.com/scl/fi/4v2aoy1n1gm9enphij67u/FINAL_high_model.npz?rlkey=7s72ydreqwwwa4dtzgut83e4w&st=9ffo4hwx&dl=1")
+            high_model = build_model_from_savez(start_dir, raw_high, "MiniARD",
+                    {"intercept":True, "split_points":[104*21]})
+            with open("FINAL_high_model.pk", "wb") as fhandle:
+                pickle.dump(high_model, fhandle)
+            os.remove(raw_high)
+
+            raw_super = wget.download("https://www.dropbox.com/scl/fi/kle84kszmb8gksfict7o4/FINAL_super_model.npz?rlkey=2luvl9vskahp16h42ico7hi4z&st=lgq1jg38&dl=1")
+            super_model = build_model_from_savez(start_dir, raw_super, "MiniARD",
+                    {"intercept":True, "split_points":[104*21]})
+            with open("FINAL_super_model.pk", "wb") as fhandle:
+                pickle.dump(super_model, fhandle)
+            os.remove(raw_super)
 
     with open("FINAL_high_model.pk", "rb") as fhandle:
-        high_model = pickle.load(fhandle)["model"]
+        high_model = pickle.load(fhandle)
     with open("FINAL_super_model.pk", "rb") as fhandle:
-        super_model = pickle.load(fhandle)["model"]
+        super_model = pickle.load(fhandle)
 
     os.chdir(start_dir)
     return high_model, super_model

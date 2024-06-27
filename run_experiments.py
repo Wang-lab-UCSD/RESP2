@@ -20,8 +20,6 @@ def get_argparser():
             "Encodes the amino acid sequence data.")
     arg_parser.add_argument("--traintest", action="store_true", help=
             "Run train-test evaluations on the available models.")
-    arg_parser.add_argument("--buildfinal", action="store_true", help=
-            "Build the final xGPR model.")
     arg_parser.add_argument("--id_key_positions", action="store_true", help=
             "Find the most important positions to search in silico.") 
     arg_parser.add_argument("--evolution", action="store_true", help=
@@ -100,19 +98,6 @@ if __name__ == "__main__":
                                         "cnn_llgp_config.yaml")
             traintest_cnn(home_dir, config_fpath, "high",
                           "cnn", prefix=prefix, suffix=suffix)
-
-    if args.buildfinal:
-        check_version("0.2.0.5")
-        st = time.time()
-        traintest_xgp(home_dir, "high", "MiniARD", prefix = "onehotESM",
-                            suffix = "concat", output_fname = "FINAL_high_model",
-                            final_model = True)
-        print(f"Time to fit high: {time.time() - st}")
-        st = time.time()
-        traintest_xgp(home_dir, "super", "MiniARD", prefix = "onehotESM",
-                            suffix = "concat", output_fname = "FINAL_super_model",
-                            final_model = True)
-        print(f"Time to fit super: {time.time() - st}")
 
 
     if args.id_key_positions:
