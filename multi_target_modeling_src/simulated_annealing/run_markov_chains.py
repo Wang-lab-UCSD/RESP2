@@ -143,8 +143,8 @@ def analyze_annealing_results(start_dir):
     os.chdir(os.path.join("results_and_resources", "selected_sequences"))
 
     output_dict = {"IDNum":np.arange(len(seqs)).tolist(), "Sequence":seqs,
-            "lowest_score":scores.tolist(),
-            "humanness_score":humanness_scores.tolist(),
+            "lowest_score":np.round(scores, 2).tolist(),
+            "humanness_score":np.round(humanness_scores, 2).tolist(),
             "mutations":[],
             "present_in_training_data":[],
             "selection_procedure":[]}
