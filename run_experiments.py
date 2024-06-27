@@ -75,6 +75,8 @@ if __name__ == "__main__":
             else:
                 kernel_list = ["Linear", "MiniARD"]
 
+            kernel_list = ["Linear"]
+
             for kernel in kernel_list:
                 fname = f"{prefix}_{suffix}_{kernel}_xgp"
                 traintest_xgp(home_dir, "high", kernel, prefix = prefix,
