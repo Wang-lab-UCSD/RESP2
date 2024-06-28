@@ -38,8 +38,7 @@ the way they were run, this is what you'll need to do.
 Note also that the requirements file has ```cupy-cuda12x```, which may be inappropriate if you
 have cuda 11, and that a specific version of PyTorch is listed which may be inappropriate for
 your device. You may need to change these lines in the requirements file if this is indeed the
-case. Note that the weights for the final model will be downloaded if you run any of the
-last three experiments and the weights have not been downloaded already.
+case.
 
 ### Usage
 
