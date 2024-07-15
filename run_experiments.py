@@ -31,15 +31,17 @@ def get_argparser():
 
 
 
-def check_version(expected_version = "0.4.0.1"):
+def check_version(expected_version = "0.2.0.5"):
     """Checks that the xGPR version installed is appropriate for
     the requested experiment."""
     if xGPR.__version__ != expected_version:
         raise RuntimeError("The xGPR version installed is not appropriate. "
-              "Unfortunately some experiments in this repo were run using xGPR "
-              "v0.4.0.1 and some with 0.2.0.5. For experiments up to 'evolution' "
-              "and 'evanal', please use v0.4.0.1. For 'evolution' and 'evanal', "
-              "please use v0.2.0.5.")
+                "Unfortunately the experiments in this repo are run with an "
+                "older version of xGPR. Newer versions are faster and easier to "
+                "install (although should give results basically indistinguishable "
+                "from the old otherwise). Nonetheless, to ensure complete "
+                "reproducibility, please use version 0.2.0.5 for these "
+                "experiments.")
 
 
 
@@ -54,11 +56,11 @@ if __name__ == "__main__":
         sys.exit(1)
 
     if args.encodeall:
-        check_version("0.4.0.1")
+        check_version("0.2.0.5")
         generate_basic_encodings(home_dir)
 
     if args.traintest:
-        check_version("0.4.0.1")
+        check_version("0.2.0.5")
         for (prefix, suffix) in [
                     ("autoencoderconv", "concat"),
                     ("onehotconv", "concat"),

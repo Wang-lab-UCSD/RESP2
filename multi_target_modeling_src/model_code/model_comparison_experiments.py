@@ -164,9 +164,9 @@ def write_res_to_file(start_dir, model_description, test_preds, test_gt,
 
     with open("traintest_log.txt", "a+", encoding="utf-8") as fhandle:
         fhandle.write(f"{model_description},{model_class},{data_prefix},"
-                      f"{data_suffix},{llgp},{train_score},{train_lcb},"
-                      f"{train_ucb},{test_score},{test_lcb},{test_ucb},"
-                      f"{hyperparams},{time_elapsed},{auce}\n")
+                      f"{data_suffix},{llgp},{np.round(train_score,3)},{np.round(train_lcb,3)},"
+                      f"{np.round(train_ucb,3)},{np.round(test_score,3)},{np.round(test_lcb,3)},{np.round(test_ucb,3)},"
+                      f"{hyperparams},{time_elapsed},{np.round(auce,3)}\n")
     os.chdir(start_dir)
 
 

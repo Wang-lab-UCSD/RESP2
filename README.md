@@ -20,20 +20,10 @@ IMPORTANT!: You also need to install one additional package not included in the 
 xGPR, which is not distributed on PyPi. For instructions on installation for xGPR, see the docs at
 https://xgpr.readthedocs.io/en/latest/index.html .
 
-Unfortunately some of the experiments in this repo involve two different versions of the xGPR
-package. Initially all experiments were run using xGPR v0.2.0.5. Later, however, the traintest split
-experiments were re-run using xGPR v0.4.0.1. While the performance difference in terms of held-out
-test set score is negligible between these two variants, xGPR v0.4.0.1 is *much* faster and therefore
-it was preferable to use it for any experiment where the speed of xGPR is being compared with the
-speed of some other approach. xGPR also has an improved API and is easier to install, so it is
-preferred in general.
-
-What this means is that you want to reproduce all experiments, you will need to run the first two
-in the pipeline using xGPR v0.4.0.1, and all others using v0.2.0.5. There are several ways you can
-do this. You can for example set up two virtual environments, or alternative install one variant and
-run the corresponding experiments, then install the other variant and run the remaining experiments.
-This is definitely cumbersome and we're not thrilled about it either, but to reproduce this experiments in
-the way they were run, this is what you'll need to do.
+Unfortunately the experiments in this repo were run with an older version of xGPR, v0.2.0.5. The older
+version is slower and somewhat harder to install than later versions, so we recommend using later versions
+(>0.4.0.1) for new projects. The difference in outcome should be negligible; nontheless to reproduce
+the experiments here exactly as they were run initially you should use v0.2.0.5.
 
 Note also that the requirements file has ```cupy-cuda12x```, which may be inappropriate if you
 have cuda 11, and that a specific version of PyTorch is listed which may be inappropriate for
