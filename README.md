@@ -28,7 +28,11 @@ https://xgpr.readthedocs.io/en/latest/index.html .
 The experiments in this repo were run with an older version of xGPR, v0.2.0.5. The older
 version is slower and somewhat harder to install than later versions, so we recommend using later versions
 (>0.4.0.1) for new projects. The difference in outcome should be negligible; nontheless to reproduce
-the experiments here exactly as they were run initially you should use v0.2.0.5.
+the experiments here exactly as they were run initially you should use v0.2.0.5. To use this older
+version of xGPR, run:
+```
+pip install git+https://github.com/jlparkI/xGPR@0.2.0.5
+```
 
 Note also that the requirements file has ```cupy-cuda12x```, which may be inappropriate if you
 have cuda 11, and that a specific version of PyTorch is listed which may be inappropriate for
