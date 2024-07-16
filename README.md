@@ -33,6 +33,7 @@ version of xGPR, run:
 ```
 pip install git+https://github.com/jlparkI/xGPR@0.2.0.5
 ```
+You will need to have g++ and nvcc (a cuda compiler) on path.
 
 Note also that the requirements file has ```cupy-cuda12x```, which may be inappropriate if you
 have cuda 11, and that a specific version of PyTorch is listed which may be inappropriate for

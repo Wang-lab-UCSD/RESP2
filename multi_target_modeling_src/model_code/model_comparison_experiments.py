@@ -6,6 +6,7 @@ hyperparameters on the fly for other models."""
 import os
 import pickle
 import time
+import xGPR
 
 import yaml
 import numpy as np
@@ -270,6 +271,11 @@ def traintest_xgp(start_dir, model_class, kernel_type = "RBF",
                     get_traintest_flists(start_dir, model_class = model_class,
                             prefix = prefix, suffix = suffix)
 
+    if xGPR.__version__ == "0.2.0.5":
+        device_name = "gpu"
+    else:
+        device_name = "cuda"
+
     time_elapsed = time.time()
     train_dset = build_regression_dataset(train_xfiles, train_yfiles,
             chunk_size = 2500)
@@ -293,14 +299,14 @@ def traintest_xgp(start_dir, model_class, kernel_type = "RBF",
         print(f"Hyperparameters for {token} obtained from config file",
                 flush=True)
         xgp = xGPReg(num_rffs = 3000, variance_rffs = 1024,
-                  kernel_choice = kernel_type, verbose = True, device = "gpu",
+                  kernel_choice = kernel_type, verbose = True, device = device_name,
                   kernel_settings = {"intercept":True, "split_points":split_pt})
         xgp.set_hyperparams(np.asarray(gp_config.hparams[token]), train_dset)
 
     else:
         if kernel_type == "Linear":
             xgp = xGPReg(num_rffs = 1024, variance_rffs = 12,
-                    kernel_choice = "Linear", verbose = True, device = "gpu")
+                    kernel_choice = "Linear", verbose = True, device = device_name)
             if "ablang" not in prefix:
                 xgp.tune_hyperparams_crude(train_dset)
             else:
@@ -312,7 +318,7 @@ def traintest_xgp(start_dir, model_class, kernel_type = "RBF",
         elif kernel_type == "MiniARD":
 
             xgp = xGPReg(num_rffs = 1024, variance_rffs = 512,
-                    kernel_choice = "MiniARD", verbose = True, device = "gpu",
+                    kernel_choice = "MiniARD", verbose = True, device = device_name,
                     kernel_settings = {"split_points":split_pt})
             if "ablang" not in prefix or "conv" in prefix:
                 xgp.tune_hyperparams(train_dset, max_iter = 250, tuning_method = "L-BFGS-B",
