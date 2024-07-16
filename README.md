@@ -14,7 +14,7 @@ cd covid_experiments
 
 then activate a suitable virtual environment and install the requirements file, e.g.:
 ```
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 IMPORTANT!: You also need to install one additional package not included in the requirements,
 xGPR, which is not distributed on PyPi. For instructions on installation for xGPR, see the docs at
