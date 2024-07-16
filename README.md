@@ -13,14 +13,19 @@ cd covid_experiments
 ```
 
 then activate a suitable virtual environment and install the requirements file, e.g.:
+
 ```
 pip install -r requirements.txt
 ```
+
+Note that at least one package which is installed compiles from source and another is downloaded
+from github.
+
 IMPORTANT!: You also need to install one additional package not included in the requirements,
 xGPR, which is not distributed on PyPi. For instructions on installation for xGPR, see the docs at
 https://xgpr.readthedocs.io/en/latest/index.html .
 
-Unfortunately the experiments in this repo were run with an older version of xGPR, v0.2.0.5. The older
+The experiments in this repo were run with an older version of xGPR, v0.2.0.5. The older
 version is slower and somewhat harder to install than later versions, so we recommend using later versions
 (>0.4.0.1) for new projects. The difference in outcome should be negligible; nontheless to reproduce
 the experiments here exactly as they were run initially you should use v0.2.0.5.

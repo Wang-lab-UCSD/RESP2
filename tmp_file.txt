@@ -1,1 +1,0 @@
-git+https://github.com/jlparkI/uncertaintyAwareDeepLearn@0.0.5
