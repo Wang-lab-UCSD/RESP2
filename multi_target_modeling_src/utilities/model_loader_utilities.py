@@ -53,8 +53,9 @@ def load_final_models(start_dir):
 def get_fc_encoder(random_seed = 123, seq_width = 21):
     """Returns an xGPR static layer for encoding data with pre-set
     parameters."""
+    # Note that in xGPR v0.4.5 conv_width is an int not a list.
     fc_encoder = FastConv1d(seq_width = seq_width,
-                             device = "gpu", conv_width = 13,
+                             device = "gpu", conv_width = [13],
                              num_features = 3000,
                              random_seed = random_seed)
     return fc_encoder

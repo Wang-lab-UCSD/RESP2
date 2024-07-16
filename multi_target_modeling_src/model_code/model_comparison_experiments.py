@@ -271,10 +271,8 @@ def traintest_xgp(start_dir, model_class, kernel_type = "RBF",
                     get_traintest_flists(start_dir, model_class = model_class,
                             prefix = prefix, suffix = suffix)
 
-    if xGPR.__version__ == "0.2.0.5":
-        device_name = "gpu"
-    else:
-        device_name = "cuda"
+    # In xGPR v0.4.5 use "cuda"
+    device_name = "gpu"
 
     time_elapsed = time.time()
     train_dset = build_regression_dataset(train_xfiles, train_yfiles,
