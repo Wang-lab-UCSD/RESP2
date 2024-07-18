@@ -158,6 +158,8 @@ class CNNRegModel(torch.nn.Module):
         super().__init__()
         torch.manual_seed(123)
         torch.backends.cudnn.deterministic = True
+        if llgp:
+            torch.use_deterministic_algorithms(True)
 
         if contextual_regression and llgp:
             raise RuntimeError("Contextual regression and llgp are mutually exclusive.")
