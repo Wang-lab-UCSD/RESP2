@@ -57,9 +57,16 @@ options:
   -h, --help          show this help message and exit
   --encodeall         Encodes the amino acid sequence data.
   --traintest         Run train-test evaluations on the available models.
+  --traintest_llgp    Run train-test evaluations on the SNGP / LLGP model.
   --id_key_positions  Find the most important positions to search in silico.
   --evolution         Run the simulated annealing process.
   --evanal            Analyze the simulated annealing results.
 ```
 
 ```--encodeall`` needs to be run first, after that the remaining experiments can be run in any order.
+Note that to ensure maximum reproducibility the SNGP / LLGP model is run using torch.use_deterministic_algorithms
+set to True. This may cause an error unless certain environment variables are set. When running the traintest_llgp
+experiment, then, you should first run the following line:
+```
+export CUBLAS_WORKSPACE_CONFIG=:4096:8
+```

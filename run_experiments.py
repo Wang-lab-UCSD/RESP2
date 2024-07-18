@@ -20,6 +20,8 @@ def get_argparser():
             "Encodes the amino acid sequence data.")
     arg_parser.add_argument("--traintest", action="store_true", help=
             "Run train-test evaluations on the available models.")
+    arg_parser.add_argument("--traintest_llgp", action="store_true", help=
+            "Run train-test evaluations on the SNGP / LLGP model.")
     arg_parser.add_argument("--id_key_positions", action="store_true", help=
             "Find the most important positions to search in silico.") 
     arg_parser.add_argument("--evolution", action="store_true", help=
@@ -96,6 +98,9 @@ if __name__ == "__main__":
                                         "yaml_config_files", "cnn_config.yaml")
             traintest_cnn(home_dir, config_fpath, "high",
                           "cnn", prefix=prefix, suffix=suffix)
+
+    if args.traintest_llgp:
+        for (prefix, suffix) in [("autoencoder", "x"), ("onehot", "x"), ("pfa", "x")]:
             config_fpath = os.path.join(home_dir, "multi_target_modeling_src",
                                         "yaml_config_files",
                                         "cnn_llgp_config.yaml")
