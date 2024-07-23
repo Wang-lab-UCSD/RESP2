@@ -159,6 +159,7 @@ class CNNRegModel(torch.nn.Module):
         torch.manual_seed(123)
         torch.backends.cudnn.deterministic = True
         if llgp:
+            torch.cuda.manual_seed(123)
             torch.use_deterministic_algorithms(True)
 
         if contextual_regression and llgp:
