@@ -54,7 +54,7 @@ options:
   --evanal            Analyze the simulated annealing results.
 ```
 
-```--encodeall`` needs to be run first, after that the remaining experiments can be run in any order.
+`--encodeall` needs to be run first, after that the remaining experiments can be run in any order.
 Note that to ensure maximum reproducibility the SNGP / LLGP model is run using torch.use_deterministic_algorithms
 set to True. This may cause an error unless certain environment variables are set. When running the traintest_llgp
 experiment, then, you should first run the following line:
