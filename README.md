@@ -29,6 +29,8 @@ distributed on pypi as a wheel whereas older versions are not -- so we recommend
 (>0.4.0.1) for new projects. The difference in outcome should be negligible; nontheless to reproduce
 the experiments here exactly as they were run initially you should use v0.2.0.5 as illustrated above.
 
+These experiments were run with cuda runtime 12.1 locally installed and with cuSOLVER version 11.3.2.
+
 ### Usage
 
 To run experiments in the pipeline, from the command line, run:
