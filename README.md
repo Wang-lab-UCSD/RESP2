@@ -12,11 +12,11 @@ git clone https://github.com/Wang-lab-UCSD/covid_experiments/
 cd covid_experiments
 ```
 
-then create a conda environment from the environment.yml file:
+then create a suitable virtual environment, activate it and install the requirements:
 ```
-conda env create -f environment.yml
+pip install -r requirements.txt
 ```
-then activate the resulting environment and install two additional packages:
+then install two additional packages:
 
 ```
 pip install git+https://github.com/jlparkI/uncertaintyAwareDeepLearn@0.0.5
