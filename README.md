@@ -1,4 +1,4 @@
-# covid_experiments
+# RESP2
 
 This repo contains code needed to reproduce key experiments for Parkinson / Hard, Ko and Wang 2024 for the ML-assisted discovery of broad-spectrum anti-COVID antibodies.
 
