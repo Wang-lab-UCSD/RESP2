@@ -1,6 +1,6 @@
 # RESP2
 
-This repo contains code needed to reproduce key experiments for Parkinson / Hard, Ko and Wang 2024 for the ML-assisted discovery of broad-spectrum anti-COVID antibodies. It incorporates the [xGPR library](https://github.com/jlparkI/xGPR) and the [AntPack library](https://github.com/Wang-lab-UCSD/AntPack) .
+This repo contains code needed to reproduce key experiments for Parkinson / Hard, Ko and Wang 2024 for the ML-assisted discovery of broad-spectrum anti-COVID antibodies. It makes use of tools from the [xGPR library](https://github.com/jlparkI/xGPR), [the uncertaintyAwareDeepLearn repo](https://github.com/Wang-lab-UCSD/uncertaintyAwareDeepLearn) and the [AntPack library](https://github.com/Wang-lab-UCSD/AntPack) .
 
 ### Installation
 
