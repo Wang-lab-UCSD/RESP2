@@ -26,19 +26,31 @@ from ..config import gp_config
 
 
 def estimate_score(preds, gt):
-    """Calculates the R^2 score and estimates a
+    """Calculates the R^2 score, MAE and RMSE and estimates a
     confidence interval using a nonparametric bootstrap."""
     score = r2_score(gt, preds)
+    mae = np.mean(np.abs(gt - preds))
+    rmse = np.sqrt(np.mean((gt - preds)**2))
+
     all_scores = []
+    all_mae, all_rmse = [], []
     rng = np.random.default_rng(123)
 
     for _ in range(1000):
         idx = rng.choice(gt.shape[0], gt.shape[0], replace=True)
         all_scores.append(r2_score(gt[idx], preds[idx]))
+        all_mae.append(np.mean(np.abs(gt[idx] - preds[idx])))
+        all_rmse.append(np.sqrt(np.mean((gt[idx] - preds[idx])**2)))
 
     all_scores = np.sort(all_scores)
+    all_mae = np.sort(all_mae)
+    all_rmse = np.sort(all_rmse)
+
     lcb, ucb = all_scores[25], all_scores[975]
-    return score, lcb, ucb
+    lcb_mae, ucb_mae = all_mae[25], all_mae[975]
+    lcb_rmse, ucb_rmse = all_rmse[25], all_rmse[975]
+
+    return score, lcb, ucb, mae, rmse, lcb_mae, ucb_mae, lcb_rmse, ucb_rmse
 
 
 
@@ -158,16 +170,25 @@ def write_res_to_file(start_dir, model_description, test_preds, test_gt,
             fhandle.write("Model_description,Model_class,Data_prefix,Data_suffix,"
                           "LLGP,Train_score,Train_LCB,Train_UCB,Test_score,"
                           "Test_LCB,Test_UCB,"
-                          "Hyperparams,Time_elapsed,AUCE\n")
+                          "Hyperparams,Time_elapsed,AUCE,"
+                          "Test_MAE,Test_RMSE,Test_LCB_MAE,"
+                          "Test_UCB_MAE,Test_LCB_RMSE,Test_UCB_RMSE\n")
 
-    train_score, train_lcb, train_ucb = estimate_score(train_preds, train_gt)
-    test_score, test_lcb, test_ucb = estimate_score(test_preds, test_gt)
+    train_score, train_lcb, train_ucb, _, _, _, _, _, _ = \
+            estimate_score(train_preds, train_gt)
+    test_score, test_lcb, test_ucb, test_mae, test_rmse, test_lcb_mae, \
+            test_ucb_mae, test_lcb_rmse, test_ucb_rmse = estimate_score(test_preds, test_gt)
+
 
     with open("traintest_log.txt", "a+", encoding="utf-8") as fhandle:
         fhandle.write(f"{model_description},{model_class},{data_prefix},"
                       f"{data_suffix},{llgp},{np.round(train_score,3)},{np.round(train_lcb,3)},"
-                      f"{np.round(train_ucb,3)},{np.round(test_score,3)},{np.round(test_lcb,3)},{np.round(test_ucb,3)},"
-                      f"{hyperparams},{time_elapsed},{np.round(auce,3)}\n")
+                      f"{np.round(train_ucb,3)},{np.round(test_score,3)},"
+                      f"{np.round(test_lcb,3)},{np.round(test_ucb,3)},"
+                      f"{hyperparams},{time_elapsed},{np.round(auce,3)},"
+                      f"{np.round(test_mae,3)},{np.round(test_rmse,3)},{np.round(test_lcb_mae,3)},"
+                      f"{np.round(test_ucb_mae,3)},{np.round(test_lcb_rmse,3)},"
+                      f"{np.round(test_ucb_rmse,3)}\n")
     os.chdir(start_dir)
 
 
