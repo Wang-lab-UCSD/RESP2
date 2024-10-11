@@ -5,6 +5,7 @@ import os
 import sys
 import xGPR
 from multi_target_modeling_src.data_encoding.normalized_encode_sequences import generate_basic_encodings
+from multi_target_modeling_src.data_encoding.simplified_sequence_extraction import calc_enrichment_values
 from multi_target_modeling_src.model_code.model_comparison_experiments import traintest_xgp, traintest_cnn, traintest_varbayes
 from multi_target_modeling_src.simulated_annealing.run_markov_chains import run_annealing_chains
 from multi_target_modeling_src.simulated_annealing.run_markov_chains import analyze_annealing_results
@@ -28,6 +29,10 @@ def get_argparser():
             "Run the simulated annealing process.")
     arg_parser.add_argument("--evanal", action="store_true", help=
             "Analyze the simulated annealing results.")
+    arg_parser.add_argument("--simplified_extract", action="store_true", help=
+            "Calculates enrichment scores and writes the raw sequences back to "
+            "file with this information. Primarily useful for benchmarking "
+            "against other methods.")
     return arg_parser
 
 
@@ -120,3 +125,6 @@ if __name__ == "__main__":
     if args.evanal:
         check_version("0.2.0.5")
         analyze_annealing_results(home_dir)
+
+    if args.simplified_extract:
+        calc_enrichment_values(home_dir)
