@@ -3,6 +3,11 @@
 ![RESP illustration](./results_and_resources/illustrations/resp_illustration.png)
 
 This repo contains code needed to reproduce key experiments for Parkinson / Hard, Ko and Wang 2024 for the ML-assisted discovery of broad-spectrum anti-COVID antibodies. It makes use of tools from the [xGPR library](https://github.com/jlparkI/xGPR), [the uncertaintyAwareDeepLearn repo](https://github.com/Wang-lab-UCSD/uncertaintyAwareDeepLearn) and the [AntPack library](https://github.com/Wang-lab-UCSD/AntPack) .
+The main purpose of this repo is to reproduce key experiments from the paper. If you are interested
+in using the RESP pipeline to generate sequences based on your own data,
+please use the [resp_protein_toolkit available at this link](https://pypi.org/project/resp-protein-toolkit/), which
+contains tools needed to encode data, fit models and run the *in silico*
+search described in the paper on a user-selected dataset. 
 
 ### Installation
 
