@@ -41,7 +41,7 @@ def get_key_mutant_info():
     _, _, keys_of_interest = get_raw_dataframe_keys()
     keys_of_interest = keys_of_interest[1:-1]
     key_mutant_dict = {key:{"x":[], "antigen":[], "y":[]} for key in ["high", "super"]}
-    key_mutant_data = pd.read_csv("key_mutants.txt")
+    key_mutant_data = pd.read_csv("key_mutants.rtxt")
 
     #The key mutant data df has the column Sequence followed by all the high group
     #columns followed by the super group columns. Loop over all columns except the first

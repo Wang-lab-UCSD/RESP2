@@ -165,8 +165,8 @@ def write_res_to_file(start_dir, model_description, test_preds, test_gt,
     """Writes the results of an evaluation to file, together with some
     metadata."""
     os.chdir(os.path.join(start_dir, "results_and_resources"))
-    if "traintest_log.txt" not in os.listdir():
-        with open("traintest_log.txt", "w+", encoding="utf-8") as fhandle:
+    if "traintest_log.rtxt" not in os.listdir():
+        with open("traintest_log.rtxt", "w+", encoding="utf-8") as fhandle:
             fhandle.write("Model_description,Model_class,Data_prefix,Data_suffix,"
                           "LLGP,Train_score,Train_LCB,Train_UCB,Test_score,"
                           "Test_LCB,Test_UCB,"
@@ -180,7 +180,7 @@ def write_res_to_file(start_dir, model_description, test_preds, test_gt,
             test_ucb_mae, test_lcb_rmse, test_ucb_rmse = estimate_score(test_preds, test_gt)
 
 
-    with open("traintest_log.txt", "a+", encoding="utf-8") as fhandle:
+    with open("traintest_log.rtxt", "a+", encoding="utf-8") as fhandle:
         fhandle.write(f"{model_description},{model_class},{data_prefix},"
                       f"{data_suffix},{llgp},{np.round(train_score,3)},{np.round(train_lcb,3)},"
                       f"{np.round(train_ucb,3)},{np.round(test_score,3)},"

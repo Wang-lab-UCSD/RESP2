@@ -190,7 +190,7 @@ def gen_chothia_dict(start_dir):
     position_dict, positions_used = {}, set()
     positions_used = set()
 
-    with open("chothia_template.txt", "r", encoding="utf-8") as input_file:
+    with open("chothia_template.rtxt", "r", encoding="utf-8") as input_file:
         template_codes = input_file.readlines()[0].strip().split(",")[13:135]
 
     expected_positions = seq_encoding_constants.chothia_list

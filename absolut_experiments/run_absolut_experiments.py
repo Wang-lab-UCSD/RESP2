@@ -9,7 +9,7 @@ import wget
 from src.constants import constants
 from src.data_processing.encode_input_data import data_encoding
 from src.modeling.model_comparison import xgpr_traintest, vbnn_traintest, cnn_traintest, xgpr_nmll
-from src.modeling.run_resp import run_resp_search, get_uncertainty_thresholds
+from src.modeling.run_resp import run_resp_search
 from src.data_processing.gen_ai_preprocessing import extract_high_scoring_seqs
 from src.modeling.process_absolut_scores import check_absolut_scores
 
