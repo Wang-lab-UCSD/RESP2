@@ -230,8 +230,7 @@ def xgpr_traintest(project_dir, data_group_name):
     time_taken = time.time() - time_taken
 
     write_results_to_file(r2, mae, rmse, auce, data_group_name,
-            "test", "xGPR_conv1d",
-            model.get_hyperparams().tolist(), time_taken,
+            "test", "xGPR", model.get_hyperparams().tolist(), time_taken,
             project_dir)
     os.chdir(os.path.join(project_dir, "absolut_results"))
     with open(f"{data_group_name}_xgpr_final_model.pk", "wb") as fhandle:

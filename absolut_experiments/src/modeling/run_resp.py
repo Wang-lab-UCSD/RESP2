@@ -162,7 +162,7 @@ def run_resp_search(project_dir, target_protein_group,
     prot_codes = seq_scorer.get_protein_codes()
     # start_seqs is a list of tuples, each of which is a starting
     # sequence and random seed. Use each to run an ISDE chain.
-    start_seqs, min_scores, max_scores, median_scores = \
+    start_seqs, min_scores, max_scores, _ = \
             get_starting_sequences(project_dir, target_protein_group)
 
     accepted_seqs, accepted_scores, accepted_var = [], [], []

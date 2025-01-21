@@ -20,25 +20,44 @@ def get_argparser():
             "to run key experiments.")
     arg_parser.add_argument("--retrieve_data", action="store_true",
             help="Retrieve the raw data from the Absolut database and "
-                "move it to a suitable location.")
+                "save it to the absolut_data folder. This step must "
+                "be performed before any other steps.")
     arg_parser.add_argument("--encode_data", action="store_true",
-            help="Encode the retrieved absolut data.")
+            help="Encode the retrieved absolut data, encoding all "
+            "protein sequences as either one-hot or substitution "
+            "matrices, create a train-test split and save the training "
+            "and test encoded sequences as .npy files under the "
+            "absolut_encoded_data folder. Also extracts "
+            "90th percentile and 80th percentile sequences to the same "
+            "location for use in fine-tuning LLMs. These are required for "
+            "all subsequent steps.")
     arg_parser.add_argument("--nmll", action="store_true",
             help="Calculates the negative marginal log-likelihood "
-            "on the training data for xGPR.")
+            "on the training data for xGPR. This step is not required "
+            "but can be used to reproduce the hyperparameter tuning "
+            "procedure originally used for xGPR if desired. The results "
+            "are printed to screen.")
     arg_parser.add_argument("--run_test_split", action="store_true",
-            help="Test the model on the held-out test set and save final "
-            "models to the results folder.")
+            help="Trains xGPR and vBNN models on the training data "
+            "from absolut_encoded_data and tests them on the test set "
+            "in the same location. The results of the test set evaluation "
+            "are written to absolut_results/traintest_log.rtxt, and the "
+            "trained models are saved to absolut_results for use in "
+            "subsequent steps.")
     arg_parser.add_argument("--run_resp_search", action="store_true",
             help="Generate candidate sequences using the RESP search "
             "with the final trained models. The resulting candidate sequences "
             "will be saved to the 'absolut_results' folder under files ending "
-            "in .rtxt; these files can be used as input to Absolut! for scoring.")
+            "in .rtxt; these files can be used as input to Absolut! for scoring. "
+            "To score these sequences you will need to download and install the "
+            "Absolut! software package; see https://github.com/csi-greifflab/Absolut "
+            "for instructions on how to do so.")
     arg_parser.add_argument("--evaluate_resp_candidates", action="store_true",
             help="Once the candidate sequences have been scored using Absolut!, "
             "move the Absolut! output to the 'absolut_results/absolut_scores' "
             "folder, then use this argument to evaluate these scores and "
-            "calculate / print success rates for each model and target.")
+            "calculate / print success rates for each model and target; the "
+            "results are printed to screen.")
     return arg_parser
 
 
@@ -132,15 +151,13 @@ if __name__ == "__main__":
         for target in get_full_target_list():
             print(f"\n\n**********************\n{target}")
             xgpr_traintest(home_dir, target)
-            cnn_traintest(home_dir, target)
             vbnn_traintest(home_dir, target)
 
     if args.run_resp_search:
         for target_group in ["neuraminidase", "il2", "prion",
                                  "dust_mite", "notch", "tissue_factor"]:
-            for target_model in ["CNN", "xgpr"]:
-                run_resp_search(home_dir, target_group,
-                                target_model = target_model)
+            run_resp_search(home_dir, target_group,
+                                target_model = "xgpr")
 
 
     if args.evaluate_resp_candidates:

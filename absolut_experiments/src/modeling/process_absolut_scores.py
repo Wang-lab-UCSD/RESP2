@@ -17,7 +17,7 @@ def check_absolut_scores(project_dir):
                                    "absolut_scores")
     raw_datapath = os.path.join(project_dir, "absolut_data")
 
-    configurations = ["cnn", "xgpr", "protein_mpnn",
+    configurations = ["xgpr", "protein_mpnn",
                       "evodiff_80", "evodiff_90"]
 
     for target_group, target_list in constants.TARGET_PROTEIN_GROUPS.items():
