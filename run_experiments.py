@@ -4,35 +4,56 @@ import time
 import os
 import sys
 import xGPR
-from multi_target_modeling_src.data_encoding.normalized_encode_sequences import generate_basic_encodings
-from multi_target_modeling_src.data_encoding.simplified_sequence_extraction import calc_enrichment_values
-from multi_target_modeling_src.model_code.model_comparison_experiments import traintest_xgp, traintest_cnn, traintest_varbayes
-from multi_target_modeling_src.simulated_annealing.run_markov_chains import run_annealing_chains
-from multi_target_modeling_src.simulated_annealing.run_markov_chains import analyze_annealing_results
-from multi_target_modeling_src.simulated_annealing.run_markov_chains import id_most_important_positions
+from sars_cov2_experiments.data_encoding.normalized_encode_sequences import generate_basic_encodings
+from sars_cov2_experiments.data_encoding.simplified_sequence_extraction import calc_enrichment_values
+from sars_cov2_experiments.model_code.model_comparison_experiments import traintest_xgp, traintest_cnn, traintest_varbayes
+from sars_cov2_experiments.simulated_annealing.run_markov_chains import run_annealing_chains
+from sars_cov2_experiments.simulated_annealing.run_markov_chains import analyze_annealing_results
+from sars_cov2_experiments.simulated_annealing.run_markov_chains import id_most_important_positions
 
 
 
 def get_argparser():
     """Constructs a basic CLI with a menu of available experiments."""
     arg_parser = argparse.ArgumentParser(description="Use this command line app "
-            "to run key experiments.")
+            "to run key experiments. Note that this may overwrite the existing "
+            "results saved in this repo.")
     arg_parser.add_argument("--encodeall", action="store_true", help=
-            "Encodes the amino acid sequence data.")
+            "Encodes the amino acid sequence data which is included with "
+            "the repository. This data contains the sequencing results for "
+            "the SARS-Cov2 experiments together with the frequency with which "
+            "each sequence was observed both in the naive library and in "
+            "the binding bin for each antigen. The encoded data is divided into "
+            "training and test sets. It contains a variety of encodings (to evaluate "
+            "the performance of each on the test set) and the calculated enrichment "
+            "scores for each datapoint, where enrichment is a proxy for binding. "
+            "The encoded data is saved to the encoded_data folder.")
     arg_parser.add_argument("--traintest", action="store_true", help=
-            "Run train-test evaluations on the available models.")
+            "Run train-test evaluations on all models used in the paper, EXCEPT for "
+            "the SNGP / LLGP. Each model "
+            "is trained on training set data from the encoded_data folder then evaluated "
+            "on the test set in the same location. Test set accuracy is saved to "
+            "results_and_resources/traintest_log.rtxt.")
     arg_parser.add_argument("--traintest_llgp", action="store_true", help=
-            "Run train-test evaluations on the SNGP / LLGP model.")
+            "Run train-test evaluations on the SNGP / LLGP model. This step is "
+            "identical to --traintest but runs the evaluation for the SNGP / LLGP "
+            "model only. Since this model is slower to train it is split into a "
+            "separate step.")
     arg_parser.add_argument("--id_key_positions", action="store_true", help=
-            "Find the most important positions to search in silico.") 
+            "This step can be run once models have been trained. In this step, "
+            "the trained GP model is used to find the most important positions "
+            "for in-silico search, and these positions are printed to screen.")
     arg_parser.add_argument("--evolution", action="store_true", help=
-            "Run the simulated annealing process.")
+            "This step can be run once models have been trained. It uses the trained "
+            "xGPR / GP model to run the RESP search described in the paper and generate "
+            "candidates for experimental evaluation. The candidates that are generated "
+            "are saved to a pickled file under results_and_resources/simulated_annealing.")
     arg_parser.add_argument("--evanal", action="store_true", help=
-            "Analyze the simulated annealing results.")
-    arg_parser.add_argument("--simplified_extract", action="store_true", help=
-            "Calculates enrichment scores and writes the raw sequences back to "
-            "file with this information. Primarily useful for benchmarking "
-            "against other methods.")
+            "Analyze the simulated annealing results, discarding problematic candidates "
+            "to retain only the most promising ones. This step should be run after "
+            "--evolution since it uses the output of the --evolution step. The final "
+            "candidates selected for experimental evaluation are saved to "
+            "results_and_resources/selected_sequences.")
     return arg_parser
 
 
@@ -99,14 +120,14 @@ if __name__ == "__main__":
 
 
         for (prefix, suffix) in [("autoencoder", "x"), ("onehot", "x"), ("pfa", "x")]:
-            config_fpath = os.path.join(home_dir, "multi_target_modeling_src",
+            config_fpath = os.path.join(home_dir, "sars_cov2_experiments",
                                         "yaml_config_files", "cnn_config.yaml")
             traintest_cnn(home_dir, config_fpath, "high",
                           "cnn", prefix=prefix, suffix=suffix)
 
     if args.traintest_llgp:
         for (prefix, suffix) in [("autoencoder", "x"), ("onehot", "x"), ("pfa", "x")]:
-            config_fpath = os.path.join(home_dir, "multi_target_modeling_src",
+            config_fpath = os.path.join(home_dir, "sars_cov2_experiments",
                                         "yaml_config_files",
                                         "cnn_llgp_config.yaml")
             traintest_cnn(home_dir, config_fpath, "high",
