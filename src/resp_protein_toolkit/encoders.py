@@ -199,6 +199,7 @@ class SubstitutionMatrixEncoder():
             raise RuntimeError("Rep type must be one of 'std', 'raw', 'dist'.")
 
         if expected_file not in os.listdir():
+            print(os.listdir())
             raise RuntimeError("Unsupported options requested.")
 
         # IMPORTANT: It is assumed here that the rows of the loaded PSSM

@@ -4,17 +4,21 @@ __pycache__/
 *$py.class
 
 # Data-related files
-*.npy
 *.npz
 *.pk
 absolut_experiments/*.txt
+absolut_experiments/*.npy
 absolut_experiments/absolut_results/*.txt
+absolut_experiments/absolut_results/*.npy
 absolut_experiments/absolut_data/
 absolut_experiments/absolut_encoded_data/
 encoded_data/*.txt
+encoded_data/*.npy
 example_dataset/*.txt
 results_and_resources/*.txt
+results_and_resources/*.npy
 sars_cov2_experiments/*.txt
+sars_cov2_experiments/*.npy
 
 # C extensions
 *.so
