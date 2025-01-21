@@ -7,7 +7,14 @@ __pycache__/
 *.npy
 *.npz
 *.pk
-*.txt
+absolut_experiments/*.txt
+absolut_experiments/absolut_results/*.txt
+absolut_experiments/absolut_data/
+absolut_experiments/absolut_encoded_data/
+encoded_data/*.txt
+example_dataset/*.txt
+results_and_resources/*.txt
+sars_cov2_experiments/*.txt
 
 # C extensions
 *.so
