@@ -4,12 +4,12 @@ import time
 import os
 import sys
 import xGPR
-from multi_target_modeling_src.data_encoding.normalized_encode_sequences import generate_basic_encodings
-from multi_target_modeling_src.data_encoding.simplified_sequence_extraction import calc_enrichment_values
-from multi_target_modeling_src.model_code.model_comparison_experiments import traintest_xgp, traintest_cnn, traintest_varbayes
-from multi_target_modeling_src.simulated_annealing.run_markov_chains import run_annealing_chains
-from multi_target_modeling_src.simulated_annealing.run_markov_chains import analyze_annealing_results
-from multi_target_modeling_src.simulated_annealing.run_markov_chains import id_most_important_positions
+from sars_cov2_experiments.data_encoding.normalized_encode_sequences import generate_basic_encodings
+from sars_cov2_experiments.data_encoding.simplified_sequence_extraction import calc_enrichment_values
+from sars_cov2_experiments.model_code.model_comparison_experiments import traintest_xgp, traintest_cnn, traintest_varbayes
+from sars_cov2_experiments.simulated_annealing.run_markov_chains import run_annealing_chains
+from sars_cov2_experiments.simulated_annealing.run_markov_chains import analyze_annealing_results
+from sars_cov2_experiments.simulated_annealing.run_markov_chains import id_most_important_positions
 
 
 
@@ -99,14 +99,14 @@ if __name__ == "__main__":
 
 
         for (prefix, suffix) in [("autoencoder", "x"), ("onehot", "x"), ("pfa", "x")]:
-            config_fpath = os.path.join(home_dir, "multi_target_modeling_src",
+            config_fpath = os.path.join(home_dir, "sars_cov2_experiments",
                                         "yaml_config_files", "cnn_config.yaml")
             traintest_cnn(home_dir, config_fpath, "high",
                           "cnn", prefix=prefix, suffix=suffix)
 
     if args.traintest_llgp:
         for (prefix, suffix) in [("autoencoder", "x"), ("onehot", "x"), ("pfa", "x")]:
-            config_fpath = os.path.join(home_dir, "multi_target_modeling_src",
+            config_fpath = os.path.join(home_dir, "sars_cov2_experiments",
                                         "yaml_config_files",
                                         "cnn_llgp_config.yaml")
             traintest_cnn(home_dir, config_fpath, "high",

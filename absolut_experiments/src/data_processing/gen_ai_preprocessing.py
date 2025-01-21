@@ -35,8 +35,6 @@ def extract_high_scoring_seqs(project_dir):
             for percentile in [80,90]:
                 threshold = np.percentile(scores, percentile)
                 idx = np.where(scores > threshold)[0].tolist()
-                print(f"For target group {target}, the {percentile}th percentile "
-                    f"is {threshold}, with {len(idx)} above it.")
                 percentile_groups[percentile] += [seqs[i] for i in idx]
 
         random.seed(123)
