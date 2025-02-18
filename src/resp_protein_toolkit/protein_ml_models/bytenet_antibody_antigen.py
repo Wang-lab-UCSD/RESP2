@@ -101,8 +101,9 @@ class ByteNetPairedSeqs(torch.nn.Module):
                         "to use ordinal regression.")
 
             likelihood = "gaussian"
-            self.class_thresholds = torch.arange(nthresholds).float()
-            self.class_thresholds -= torch.mean(self.class_thresholds)
+            class_thresholds = torch.arange(nthresholds).float()
+            class_thresholds -= torch.mean(self.class_thresholds)
+            self.register_buffer("class_thresholds", class_thresholds)
         else:
             raise RuntimeError("Unrecognized objective supplied.")
 
