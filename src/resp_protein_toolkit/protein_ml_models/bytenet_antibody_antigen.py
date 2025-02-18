@@ -42,9 +42,10 @@ class ByteNetPairedSeqs(torch.nn.Module):
         antigen_dim: Either None or an int. If None, the antigen input is assumed
             to have the same dimensionality as the antibody.
         objective (str): Must be one of "regression", "binary_classifier",
-            "multiclass".
+            "multiclass", "ordinal".
         num_predicted_categories (int): The number of categories (i.e. possible values
-            for y in output). Ignored unless objective is "multiclass".
+            for y in output). Ignored unless objective is "multiclass" or "ordinal",
+            and required if the objective is either of those things.
         gp_cov_momentum (float): A "discount factor" used to update a moving average
             for the updates to the covariance matrix when llgp is True. 0.999 is a
             reasonable default if the number of steps per epoch is large, otherwise
@@ -92,6 +93,16 @@ class ByteNetPairedSeqs(torch.nn.Module):
         elif objective == "regression":
             nclasses = 1
             likelihood = "Gaussian"
+        elif objective == "ordinal":
+            nthresholds = num_predicted_categories - 1
+            nclasses = 1
+            if nthresholds < 1:
+                raise RuntimeError("The number of categories must be >= 2 "
+                        "to use ordinal regression.")
+
+            likelihood = "gaussian"
+            self.class_thresholds = torch.arange(nthresholds).float()
+            self.class_thresholds -= torch.mean(self.class_thresholds)
         else:
             raise RuntimeError("Unrecognized objective supplied.")
 
@@ -219,6 +230,22 @@ class ByteNetPairedSeqs(torch.nn.Module):
             else:
                 preds = self.out_layer(x_antibody)
             return F.softmax(preds, dim=1)
+        if self.objective == "ordinal":
+            if self.llgp and get_var:
+                preds, var = self.out_layer(x_antibody, get_var = get_var)
+                if len(preds.shape) == 1:
+                    preds = preds.unsqueeze(1)
+                preds = preds[:,0:1] - self.class_thresholds[None,:]
+                return F.sigmoid(preds), var
+            if self.llgp:
+                preds = self.out_layer(x_antibody, update_precision)
+            else:
+                preds = self.out_layer(x_antibody)
+
+            if len(preds.shape) == 1:
+                preds = preds.unsqueeze(1)
+            preds = preds[:,0:1] - self.class_thresholds[None,:]
+            return F.sigmoid(preds)
 
         # Double-check that the objective is correct to avoid weird
         # errors...

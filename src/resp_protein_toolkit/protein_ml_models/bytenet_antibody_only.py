@@ -211,13 +211,14 @@ class ByteNetSingleSeq(torch.nn.Module):
             nclasses = 1
             likelihood = "gaussian"
         elif objective == "ordinal":
-            nclasses = num_predicted_categories - 1
-            if nclasses < 1:
+            nthresholds = num_predicted_categories - 1
+            nclasses = 1
+            if nthresholds < 1:
                 raise RuntimeError("The number of categories must be >= 2 "
                         "to use ordinal regression.")
 
             likelihood = "gaussian"
-            self.class_thresholds = torch.arange(nclasses).float()
+            self.class_thresholds = torch.arange(nthresholds).float()
             self.class_thresholds -= torch.mean(self.class_thresholds)
         else:
             raise RuntimeError("Unrecognized objective supplied.")
