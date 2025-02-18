@@ -33,3 +33,16 @@ usually a good idea to check performance on a validation set and adjust
 as needed. For an example of how to train this kind of model and use it
 with RESP to generate new sequences, see the example notebook on the main
 page of the docs.
+
+Notice that ordinal regression (``objective='ordinal'``) is special in some
+ways. When this objective is selected, the model calculates a single latent
+"score" for each input datapoint, and the model output is a vector of shape
+``K-1``, where K is the number of possible categories. Each element ``i`` of the output
+is the probability that the input datapoint belongs to category ``i+1`` *or* to a
+higher category. This arrangement only makes sense if the categories are ranked,
+of course, and this is the only situation where ordinal regression is useful.
+When training this type of model you should use binary cross entropy loss on the
+output and as ground truth labels use an array of shape ``(N,K-1)`` where each
+element ``[i,j]`` is either 1 (indicating that datapoint ``i`` belongs to category
+``j+1`` or above) or 0. We'll add an example of what this looks like in practice
+soon.
