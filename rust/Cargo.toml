@@ -1,0 +1,11 @@
+[package]
+name = "resp_protein_toolkit"
+version = "0.1"
+edition = "2024"
+
+[lib]
+name = "resp_toolkit_rust_ext"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { features = ["extension-module"] }
