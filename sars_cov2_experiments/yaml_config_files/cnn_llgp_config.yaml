@@ -1,0 +1,18 @@
+model:
+  n_layers: 10
+  kernel_size: 13
+  dropout: 0.0
+  hidden_dim: 21
+  dil_factor: 2
+  llgp: True
+  conreg: False
+  use_spectral_norm: True
+
+training:
+  batch_size: 500
+  learn_rate: 0.001
+  weight_decay: 0
+  use_scheduler: False
+  epochs: 150
+  eta_min: 0.0005
+  optimizer_type: "Adam"

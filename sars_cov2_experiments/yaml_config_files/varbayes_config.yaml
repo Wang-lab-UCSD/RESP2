@@ -1,0 +1,13 @@
+model:
+  n1_size: 60
+  n2_size: 30
+
+training:
+  batch_size: 500
+  learning_rate: 0.001
+  weight_decay: 0
+  use_scheduler: False
+  epochs: 50
+  eta_min: 0.0005
+  optimizer_type: "Adam"
+  num_samples: 10
