@@ -14,6 +14,11 @@ enable you to reproduce the experiments from the paper in a step-by-step fashion
 first downloading the raw data, then encoding it, then training models on it
 and reporting model evaluation results.
 
+# Running the RESP pipeline on your own data
+
+To use the RESP pipeline on your own data, please see [the resp_protein_toolkit](https://github.com/jlparkI/resp_protein_toolkit).
+Note that licensing restrictions apply and commercial use is not allowed.
+
 ### Installation
 
 These experiments were originally run on a Nvidia A6000 GPU with cuda12.3.
