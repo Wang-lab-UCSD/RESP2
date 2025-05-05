@@ -9,7 +9,7 @@ import wget
 from src.constants import constants
 from src.data_processing.encode_input_data import data_encoding
 from src.modeling.model_comparison import xgpr_traintest, vbnn_traintest, cnn_traintest, xgpr_nmll
-from src.modeling.run_resp import run_resp_search
+from src.modeling.run_resp import run_resp_search, find_start_sequences_external_use
 from src.data_processing.gen_ai_preprocessing import extract_high_scoring_seqs
 from src.modeling.process_absolut_scores import check_absolut_scores
 
@@ -58,6 +58,9 @@ def get_argparser():
             "folder, then use this argument to evaluate these scores and "
             "calculate / print success rates for each model and target; the "
             "results are printed to screen.")
+    arg_parser.add_argument("--harvest_start_sequences", action="store_true",
+            help="Extract the same starting sequences used for the RESP search "
+            "for use by external pipelines.")
     return arg_parser
 
 
@@ -158,6 +161,11 @@ if __name__ == "__main__":
                                  "dust_mite", "notch", "tissue_factor"]:
             run_resp_search(home_dir, target_group,
                                 target_model = "xgpr")
+
+    if args.harvest_start_sequences:
+        for target_group in ["neuraminidase", "il2", "prion",
+                                 "dust_mite", "notch", "tissue_factor"]:
+            find_start_sequences_external_use(home_dir, target_group)
 
 
     if args.evaluate_resp_candidates:

@@ -265,3 +265,51 @@ def write_selected_seq_to_file(score_group, variance_group,
     var2 = np.round(variance_group[idx,1], 5)
     csv_handle.write(f"{seq},{score1},{score2},{var1},{var2}\n")
     txt_handle.write(f"{sequence_counter}\t{seq}\n")
+
+
+
+
+def find_start_sequences_external_use(project_dir, target_protein_group):
+    """Harvest starting sequences for use by other pipelines. The
+    starting sequences extracted here are the same ones used for
+    RESP, but have to be set up differently since external pipelines
+    must run against each antigen individually."""
+    random.seed(123)
+
+    if target_protein_group not in constants.TARGET_PROTEIN_GROUPS:
+        raise RuntimeError("Invalid target protein group supplied.")
+
+    desired_binder_lengths = [11,13,15,17,19]
+
+    for protein_code in constants.TARGET_PROTEIN_GROUPS[target_protein_group]:
+        with open(os.path.join(project_dir, f"{protein_code}_selected_seqs.txt"),
+                "w+", encoding="utf-8") as output_handle:
+            length_to_results = {d:[] for d in desired_binder_lengths}
+            all_scores = []
+
+            with open(os.path.join(project_dir, "absolut_data",
+                        f"{protein_code}_500kNonMascotte.txt"), "r",
+                  encoding="utf-8") as fhandle:
+                _ = fhandle.readline()
+                _ = fhandle.readline()
+
+                for line in fhandle:
+                    seq = line.split()[1]
+                    score = float(line.split()[4])
+                    all_scores.append(score)
+                    if len(seq) in length_to_results:
+                        length_to_results[len(seq)].append((seq, score))
+
+            median_score = np.median(all_scores)
+
+            for desired_length in desired_binder_lengths:
+                # Use only weak binders to start. We use > here since
+                # in this case a less negative (higher) value indicates
+                # a weaker binder. Note that when writing to output we will
+                # flip the sign on the score since external pipelines
+                # maximize not minimize fitness.
+                seq_options = [(seq, score) for (seq, score) in
+                        length_to_results[desired_length] if score > median_score]
+
+                seq_choice = random.choice(seq_options)
+                output_handle.write(f"{seq_choice[0]},{-seq_choice[1]}\n")
