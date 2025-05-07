@@ -312,4 +312,4 @@ def find_start_sequences_external_use(project_dir, target_protein_group):
                         length_to_results[desired_length] if score > median_score]
 
                 seq_choice = random.choice(seq_options)
-                output_handle.write(f"{seq_choice[0]},{-seq_choice[1]}\n")
+                output_handle.write(f"{seq_choice[0]},{seq_choice[1]}\n")
